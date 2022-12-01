@@ -34,6 +34,8 @@ typedef struct {
  char sentenca[MAX];
  int nivel_de_dificuldade;
  int peso;
+ char tipo[MAX];
+ char subtipo[MAX];
 
 
 
@@ -46,33 +48,47 @@ typedef struct{
  char sentenca[MAX];
  int nivel_de_dificuldade;
  int peso; // a probabilidade do sorteio eh proporcional ao peso em comparacao as sentencias
-
+ char tipo[MAX];
+ char subtipo[MAX];
 
 
 
 }PREENCHER_ESPACOS;
 
 void insere_verdadeirofalso(VERDADEIRO_FALSO * sentenca, FILE * ponteiro){
-
-  sentenca->nivel_de_dificuldade;
-  sentenca->peso;
-  sentenca->sentenca;
-
+   char caractere = '\n';
+  puts("Informe o Nivel de dificuldade :");
+  scanf("%d",sentenca->nivel_de_dificuldade);
+  puts("Informe o Peso :");
+  scanf("%d",sentenca->peso);
+  puts("Informe o Tipo (apenas letras minusculas) :");
+  scanf("%s",sentenca->tipo);
+  puts("Informe o subtipo (apenas letras minusculas) :");
+  scanf("%s",sentenca->subtipo);
+  puts("Informe a sentencia :");
+  scanf("%s",sentenca->sentenca);
 
   fwrite(sentenca,sizeof(sentenca),1,ponteiro);
+  fwrite(&caractere,sizeof(char),2,ponteiro);
   return;
 
 }
 
 void insere_preencherlacunas(PREENCHER_ESPACOS * sentenca, FILE * ponteiro){
-
-    sentenca->nivel_de_dificuldade;
-    sentenca->peso;
-    sentenca->sentenca;
-     
-
-
+  char caractere = '\n';
+  puts("Informe o Nivel de dificuldade :");
+  scanf("%d",sentenca->nivel_de_dificuldade);
+  puts("Informe o Peso :");
+  scanf("%d",sentenca->peso);
+  puts("Informe o Tipo (apenas letras minusculas) :");
+  scanf("%s",sentenca->tipo);
+  puts("Informe o subtipo (apenas letras minusculas) :");
+  scanf("%s",sentenca->subtipo);
+  puts("Informe a sentencia :");
+  scanf("%s",sentenca->sentenca);
+   
   fwrite(sentenca,sizeof(sentenca),1,ponteiro);
+  fwrite(&caractere,sizeof(char),2,ponteiro);
 
   return;
 
@@ -85,7 +101,7 @@ void insere_sentencas_arquivo(char * nome_do_programa, int n_sentencas){
     }
     else{
     int escolha = 0;
-    puts("Informe qual eh o tipo da sentencia : 1 para VERDADEIRO/FALSO e 2 para PREENCHER COLUNA:");
+    puts("Informe qual eh o tipo da sentencia : 1 para VERDADEIRO/FALSO e 2 para PREENCHER LACUNA:");
     scanf("%d", &escolha);
     if(escolha == VERDADEIRO_OU_FALSO)
     {
@@ -114,10 +130,8 @@ void insere_sentencas_arquivo(char * nome_do_programa, int n_sentencas){
 
 
 
-
-
-
 int main(int argc, char ** argv){
+   
     int n_sentencas;
    char nome_do_arquivo[MAX];
    puts("Usuario : \n\n Informe o arquivo em que vc deseja inserir as sentencias :");

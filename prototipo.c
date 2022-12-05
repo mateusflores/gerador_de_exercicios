@@ -55,6 +55,23 @@ typedef struct{
 
 }PREENCHER_ESPACOS;
 
+void gambiarra(char ** texto1, char ** texto2){
+
+  int i;
+  for(i = 0; texto2[i] != 0; i++){
+      if(texto2[i] == '$'){
+        texto1[i] = '\n';
+      } else{
+        texto1[i] = texto2[i];
+      }
+       
+  }
+
+
+  return;
+
+}
+
 void insere_verdadeirofalso(VERDADEIRO_FALSO * sentenca, FILE * ponteiro){
   puts("Informe o Nivel de dificuldade :");
   scanf("%d",sentenca->nivel_de_dificuldade);
@@ -64,10 +81,12 @@ void insere_verdadeirofalso(VERDADEIRO_FALSO * sentenca, FILE * ponteiro){
   scanf("%s",sentenca->tipo);
   puts("Informe o subtipo (apenas letras minusculas) :");
   scanf("%s",sentenca->subtipo);
-  puts("Informe a sentencia :");
+  puts("Informe a sentencia (se quiser usar o enter, digite '$') :");
   scanf("%s",sentenca->sentenca);
    
   char texto_arquivo[MAX];
+  char sentenca_formata[MAX];
+  gambiarra(sentenca_formata,sentenca->sentenca);
   sprintf(texto_arquivo,"questao : %s Tipo : %s\n Subtipo : %s\n Peso : %d\n nivel_de_dificuldade %d\n\n",sentenca->sentenca,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->nivel_de_dificuldade);
   fwrite(texto_arquivo,sizeof(texto_arquivo),1,ponteiro);
   
@@ -84,12 +103,15 @@ void insere_preencherlacunas(PREENCHER_ESPACOS * sentenca, FILE * ponteiro){
   scanf("%s",sentenca->tipo);
   puts("Informe o subtipo (apenas letras minusculas) :");
   scanf("%s",sentenca->subtipo);
-  puts("Informe a sentencia (quando quiser usar o enter, digite barra n :");
+  puts("Informe a sentencia (quando quiser usar o enter, digite $ :");
   scanf("%s",sentenca->sentenca);
 
-  
   char texto_arquivo[MAX];
-  sprintf(texto_arquivo,"questao : %s Tipo : %s\n Subtipo : %s\n Peso : %d\n nivel_de_dificuldade %d\n\n",sentenca->sentenca,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->nivel_de_dificuldade);
+  char sentenca_formatada[MAX];
+
+  gambiarra(sentenca_formatada,sentenca->sentenca);
+
+  sprintf(texto_arquivo,"questao : %s Tipo : %s\n Subtipo : %s\n Peso : %d\n nivel_de_dificuldade %d\n\n",sentenca_formatada,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->nivel_de_dificuldade);
   fwrite(texto_arquivo,sizeof(texto_arquivo),1,ponteiro);
   
 
@@ -98,7 +120,7 @@ void insere_preencherlacunas(PREENCHER_ESPACOS * sentenca, FILE * ponteiro){
 }
 
 
-void insere_sentencas_arquivo(char * nome_do_programa, int n_sentencas){
+void insere_sentencas_arquivo(FILE * nome_do_programa, int n_sentencas){
     if(n_sentencas == 0){
         return;
     }
@@ -135,17 +157,17 @@ void insere_sentencas_arquivo(char * nome_do_programa, int n_sentencas){
 
 int main(int argc, char ** argv){
    
-    int n_sentencas;
-   char nome_do_arquivo[MAX];
-   puts("Usuario : \n\n Informe o arquivo em que vc deseja inserir as sentencias :");
-   scanf("%s",nome_do_arquivo);
-   FILE * arquivo = fopen(nome_do_arquivo,"ab+"); // se o arquivo existe, escreve no
-   puts("Informe o numero de sentencias :"); // final, caso nao, cria o arquivo
-   scanf("%d", &n_sentencas);
-   insere_sentencas_arquivo(nome_do_arquivo,n_sentencas);
-   fclose(arquivo);
+  int n_sentencas;
+  char nome_do_arquivo[MAX];
+  puts("Usuario : \n\n Informe o arquivo em que vc deseja inserir as sentencias :");
+  scanf("%s",nome_do_arquivo);
+  FILE * arquivo = fopen(nome_do_arquivo,"ab+"); // se o arquivo existe, escreve no
+  puts("Informe o numero de sentencias :"); // final, caso nao, cria o arquivo
+  scanf("%d", &n_sentencas);
+  insere_sentencas_arquivo(arquivo,n_sentencas);
+  fclose(arquivo);
 
-   return 0;
+  return 0;
 
 
 

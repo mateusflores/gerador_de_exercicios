@@ -52,7 +52,7 @@ void insere_verdadeirofalso(INSERIR_SENTENCA * sentenca, FILE * ponteiro){
 // finalizado
 
 void insere_sentencas_arquivo(FILE * nome_do_programa, int n_sentencas){
-    if(n_sentencas == 0){
+    if(n_sentencas <= 0){
         return;
     }
     else{

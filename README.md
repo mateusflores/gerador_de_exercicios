@@ -9,6 +9,3 @@ Sugestões para os aquivos com as sentenças:
 - Sexta são as respostas (tudo em um única linha, separadas por espaço ou outro caracter)
 
 - As diferentes questões podem ser separadas por uma linha em branco
-
-
-- Sempre deixar uma linha em branco ao final do arquivo contendo as sentenças

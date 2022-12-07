@@ -4,11 +4,18 @@
 #include <time.h>
 #include <string.h>
 
+bool eh_linha_branca(char linha[]) {
+    if (linha[0] == '\n')
+        return true;
+    else
+        return false;
+}
+
 // Informe os nomes dos arquivos contendo as questões na execucao do programa
 int main(int argc, char *argv[]) {
-    int i;
+    int i, quantSentencas = 0;
+    char buff[1000];
 
-    // Garantindo que o arquivo 'compilado_de_questoes" sempre sera iniciado em branco
     FILE *fp = fopen("compilado_de_questoes.txt", "w");
     if (fp == NULL) {
         puts("Ocorreu um erro.");
@@ -27,15 +34,18 @@ int main(int argc, char *argv[]) {
             exit(8);
         }
         
-        char ch = fgetc(ftemp);
-        while (ch != EOF) {
-            fputc(ch, comp);
-            ch = fgetc(ftemp);
+        while (fgets(buff, 1000, ftemp) != NULL) {
+            if (eh_linha_branca(buff))
+                quantSentencas++;
+            fputs(buff, comp);
         }
+        quantSentencas++;
 
+        fputc('\n', comp);
         fclose(ftemp);
         fclose(comp);
     }
 
+    printf("\n%d sentenças adicionadas no arquivo compilado.\n", quantSentencas);
     fclose(fp);
 }

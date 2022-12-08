@@ -4,6 +4,19 @@
 #include <time.h>
 #include <string.h>
 
+#define VERDADEIRO_FALSO 1
+#define PREENCHER_LACUNAS 2
+
+typedef struct {
+    int tipo;
+    short int dificuldade;
+    short int peso;
+    char assuntoPrincipal[20];
+    char assuntoSecundario[20];
+    char frase[1000];
+    char resposta[100];
+} SENTENCA;
+
 bool eh_linha_branca(char linha[]) {
     if (linha[0] == '\n')
         return true;

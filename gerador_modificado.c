@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define TAMANHO_SENTENCA 1000
+#define TAMANHO_SENTENCA 200
 #define TIPO_SUBTIPO 100
 #define VERDADEIRO_FALSO 1
 #define PREENCHER_LACUNAS 2
@@ -11,8 +11,8 @@
 // finalizado
 
 typedef struct {
- char enunciado[TIPO_SUBTIPO];
  char questoes[TAMANHO_SENTENCA];
+ char respostas[TAMANHO_SENTENCA];
  unsigned short int nivel_de_dificuldade;
  unsigned short int peso; // a probabilidade do sorteio eh proporcional ao peso
  // em comparacao as sentencias
@@ -31,29 +31,32 @@ void insere_verdadeirofalso(INSERIR_SENTENCA * sentenca, FILE * ponteiro){
   char caractere;
   int tipo_de_questao = 0;
   puts("Informe o tipo de questao : 1 para VERDADEIRO/FALSO e 2 para PREENCHER_LACUNAS :");
-  scanf("%d",&tipo_de_questao);
+  scanf("%hd",&tipo_de_questao);
   puts("Informe o Tipo (apenas letras minusculas e sem espaco) :");
   scanf("%s",sentenca->tipo);
   puts("Informe o subtipo (apenas letras minusculas e sem espaco) :");
   scanf("%s",sentenca->subtipo);
-  puts("Informe o Peso :");
+  puts("Informe o Peso (1 a 3) :");
   scanf("%hd",&sentenca->peso);
-  puts("Informe o Nivel de dificuldade :");
+  puts("Informe o Nivel de dificuldade (1 a 3) :");
   scanf("%hd",&sentenca->nivel_de_dificuldade);
-  puts("Informe a sentencia (quando terminar, digite '$') :");
+  puts("Informe a sentencia (quando terminar, digite enter) :");
   
-  for(i = 0; (caractere = fgetc(stdin)) != '$'; i++){
+  for(i = 0; (caractere = fgetc(stdin)) != '\n'; i++){
         sentenca->questoes[i] = caractere;
   }
   sentenca->questoes[i] = '\0';
-  if(tipo_de_questao == VERDADEIRO_FALSO){
-    strcpy(sentenca->enunciado,"Indique se as seguintes sentenças são falsas ou verdadeiras.");
-  fprintf(ponteiro,"\n\nTipo : %s\nSubtipo : %s\nPeso: %hd\nNivel de dificuldade : %hd\nquestao : %s\n%s",sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->nivel_de_dificuldade,sentenca->enunciado,sentenca->questoes);
 
+  puts("Informe a resposta correta : (digite enter para terminar)");
+  for(i = 0; (caractere = fgetc(stdin)) != '\n'; i++){
+      sentenca->respostas[i] = caractere;
+  }
+
+  if(tipo_de_questao == VERDADEIRO_FALSO){
+  fprintf(ponteiro,"\n%d\nNivel de dificuldade : %hd\nTipo : %s\nSubtipo : %s\nPeso : %hd\nSentenca : %s\nRespostas  : %s",VERDADEIRO_FALSO,sentenca->nivel_de_dificuldade,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->questoes);
   }else if(tipo_de_questao == PREENCHER_LACUNAS){
 
-    strcpy(sentenca->enunciado,"Preencha os espaços em cada uma das sentenças:");
-  fprintf(ponteiro,"\n\nTipo : %s\nSubtipo : %s\nPeso: %hd\nNivel de dificuldade : %hd\nquestao : %s\n%s",sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->nivel_de_dificuldade,sentenca->enunciado,sentenca->questoes);
+   fprintf(ponteiro,"\n%d\nNivel de dificuldade : %hd\nTipo : %s\nSubtipo : %s\nPeso : %hd\nSentenca : %s\nRespostas  : %s",PREENCHER_LACUNAS,sentenca->nivel_de_dificuldade,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->questoes);
 
 
   }

@@ -1,0 +1,8 @@
+
+1
+Nivel de dificuldade : 3
+Assunto principal : arquivos
+Assunto secundario : leitura e escrita
+Peso : 2
+Sentenca : a)Arquivos binario nao podem ser escritos usando funcoes de arquivos txt
+Respostas : correto

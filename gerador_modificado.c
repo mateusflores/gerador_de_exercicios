@@ -32,26 +32,24 @@ void insere_verdadeirofalso(INSERIR_SENTENCA * sentenca, FILE * ponteiro){
   int tipo_de_questao = 0;
   puts("Informe o tipo de questao : 1 para VERDADEIRO/FALSO e 2 para PREENCHER_LACUNAS :");
   scanf("%d",&tipo_de_questao);
-  puts("Informe o Assunto principal (apenas letras minusculas e sem espaco) :");
-  scanf("%s",sentenca->tipo);
+  setbuf(stdin,NULL);
+  puts("Informe o Assunto principal:");
+  scanf("%[^\n]",sentenca->tipo);
+  setbuf(stdin,NULL);
   puts("Informe o Assunto secundario (apenas letras minusculas e sem espaco) :");
-  scanf("%s",sentenca->subtipo);
+  scanf("%[^\n]",sentenca->subtipo);
+  setbuf(stdin,NULL);
   puts("Informe o Peso (1 - 3) :");
   scanf("%hd",&sentenca->peso);
   puts("Informe o Nivel de dificuldade (1 - 3) :");
   scanf("%hd",&sentenca->nivel_de_dificuldade);
+  setbuf(stdin,NULL);
   puts("Informe a sentencia (quando terminar, digite '$' e enter) :");
-  
-  for(i = 0; (caractere = fgetc(stdin)) != '$'; i++){
-        sentenca->questoes[i] = caractere;
-  }
-  sentenca->questoes[i] = '\0';
-
+  scanf("%[^\n]",sentenca->questoes);
+  setbuf(stdin,NULL);
   puts("Informe a resposta correta : (digite enter para terminar)");
-  for(i = 0; (caractere = fgetc(stdin)) != '$'; i++){
-        sentenca->respostas[i] = caractere;
-  }
-  sentenca->respostas[i] = '\0';
+  scanf("%[^\n]",sentenca->respostas);
+  setbuf(stdin,NULL);
 
   if(tipo_de_questao == VERDADEIRO_FALSO){
 

@@ -31,33 +31,35 @@ void insere_verdadeirofalso(INSERIR_SENTENCA * sentenca, FILE * ponteiro){
   char caractere;
   int tipo_de_questao = 0;
   puts("Informe o tipo de questao : 1 para VERDADEIRO/FALSO e 2 para PREENCHER_LACUNAS :");
-  scanf("%hd",&tipo_de_questao);
-  puts("Informe o Tipo (apenas letras minusculas e sem espaco) :");
+  scanf("%d",&tipo_de_questao);
+  puts("Informe o Assunto principal (apenas letras minusculas e sem espaco) :");
   scanf("%s",sentenca->tipo);
-  puts("Informe o subtipo (apenas letras minusculas e sem espaco) :");
+  puts("Informe o Assunto secundario (apenas letras minusculas e sem espaco) :");
   scanf("%s",sentenca->subtipo);
-  puts("Informe o Peso (1 a 3) :");
+  puts("Informe o Peso (1 - 3) :");
   scanf("%hd",&sentenca->peso);
-  puts("Informe o Nivel de dificuldade (1 a 3) :");
+  puts("Informe o Nivel de dificuldade (1 - 3) :");
   scanf("%hd",&sentenca->nivel_de_dificuldade);
-  puts("Informe a sentencia (quando terminar, digite enter) :");
+  puts("Informe a sentencia (quando terminar, digite '$' e enter) :");
   
-  for(i = 0; (caractere = fgetc(stdin)) != '\n'; i++){
+  for(i = 0; (caractere = fgetc(stdin)) != '$'; i++){
         sentenca->questoes[i] = caractere;
   }
   sentenca->questoes[i] = '\0';
 
   puts("Informe a resposta correta : (digite enter para terminar)");
-  for(i = 0; (caractere = fgetc(stdin)) != '\n'; i++){
-      sentenca->respostas[i] = caractere;
+  for(i = 0; (caractere = fgetc(stdin)) != '$'; i++){
+        sentenca->respostas[i] = caractere;
   }
+  sentenca->respostas[i] = '\0';
 
   if(tipo_de_questao == VERDADEIRO_FALSO){
-  fprintf(ponteiro,"\n%d\nNivel de dificuldade : %hd\nTipo : %s\nSubtipo : %s\nPeso : %hd\nSentenca : %s\nRespostas  : %s",VERDADEIRO_FALSO,sentenca->nivel_de_dificuldade,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->questoes);
+
+  fprintf(ponteiro,"\n%d\nNivel de dificuldade : %hd\nAssunto principal : %s\nAssunto secundario : %s\nPeso : %hd\nSentenca : %s\nRespostas : %s",VERDADEIRO_FALSO,sentenca->nivel_de_dificuldade,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->questoes,sentenca->respostas);
+  
   }else if(tipo_de_questao == PREENCHER_LACUNAS){
 
-   fprintf(ponteiro,"\n%d\nNivel de dificuldade : %hd\nTipo : %s\nSubtipo : %s\nPeso : %hd\nSentenca : %s\nRespostas  : %s",PREENCHER_LACUNAS,sentenca->nivel_de_dificuldade,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->questoes);
-
+   fprintf(ponteiro,"\n%d\nNivel de dificuldade : %hd\nAssunto principal : %s\nAssunto secundario : %s\nPeso : %hd\nSentenca : %s\nRespostas : %s",PREENCHER_LACUNAS,sentenca->nivel_de_dificuldade,sentenca->tipo,sentenca->subtipo,sentenca->peso,sentenca->questoes,sentenca->respostas);
 
   }
   return;
@@ -92,7 +94,7 @@ int main(int argc, char ** argv){
 
 
 
-  puts("Usuario : \n\n Informe o arquivo em que vc deseja inserir as sentencias :");
+  puts("Usuario : \n\n Informe o arquivo em que vc deseja inserir a sentencia :");
   scanf("%s",nome_do_arquivo);
 
 

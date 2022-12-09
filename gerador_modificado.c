@@ -67,17 +67,35 @@ void insere_verdadeirofalso(INSERIR_SENTENCA * sentenca, FILE * ponteiro){
 
 // finalizado
 
-void insere_sentencas_arquivo(FILE * nome_do_programa, int n_sentencas){
+void insere_sentencas_arquivo(FILE * nome_do_programa, int n_sentencas, char * nome_do_arquivo){
+  int n;
     if(n_sentencas <= 0){
-        return;
+      fclose(nome_do_programa);
+      return;
     }
     else{
+      if(nome_do_programa == NULL){
+        puts("Digite o nome do arquivo que vc deseja inserir os dados :");
+        scanf("%s",nome_do_arquivo);
+        nome_do_programa = fopen(nome_do_arquivo,"a");
+      } else{
+        printf("O arquivo %s esta sendo usado para escrever, deseja trocar?",nome_do_arquivo);
+        puts("Se sim, digite 1, se nao, digite qualquer coisa:");
+        scanf("%d",&n);
+        if(n == 1){
+          puts("Digite o nome do novo arquivo :");
+          scanf("%s",nome_do_arquivo);
+          fclose(nome_do_programa);
+          nome_do_programa = fopen(nome_do_arquivo,"a");
+        } 
+        
+      }
     int escolha = 0;
     
     INSERIR_SENTENCA * sentenca = (INSERIR_SENTENCA *) malloc(sizeof(INSERIR_SENTENCA));
     insere_verdadeirofalso(sentenca,nome_do_programa);
     free(sentenca);
-    return insere_sentencas_arquivo(nome_do_programa,n_sentencas-1);
+    return insere_sentencas_arquivo(nome_do_programa,n_sentencas-1,nome_do_arquivo);
     
     }
 
@@ -90,22 +108,9 @@ int main(int argc, char ** argv){
   int n_sentencas;
   char nome_do_arquivo[TAMANHO_SENTENCA];
 
-
-
-  puts("Usuario : \n\n Informe o arquivo em que vc deseja inserir a sentencia :");
-  scanf("%s",nome_do_arquivo);
-
-
-
-  FILE * arquivo = fopen(nome_do_arquivo,"a");
-  // se o arquivo existe, escreve no final, caso nao, cria o arquivo
-
-
-
   puts("Informe o numero de sentencias :");
   scanf("%d", &n_sentencas);
-  insere_sentencas_arquivo(arquivo,n_sentencas);
-  fclose(arquivo);
+  insere_sentencas_arquivo(NULL,n_sentencas,nome_do_arquivo);
 
   return 0;
 

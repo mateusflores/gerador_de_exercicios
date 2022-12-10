@@ -54,6 +54,55 @@ int respostaCorreta (int sentencas) {
     return r ;
 }
 
+void limpaBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// Menu onde o usuário vai inserir as especificações das questões desejadas no arquivo final
+void menuUsuario () {
+    FILE *espec = fopen("especificacao.txt", "w");
+    char quant[4], assuntos[200], niveis[5];
+
+    if (espec == NULL) {
+        puts("Erro!");
+        exit(7);
+    }
+
+    puts("+---------------------------------------------------------------+");
+    puts("| Insira quantas questoes do tipo PREENCHER LACUNAS voce deseja:|");
+    printf(" RESPOSTA: ");
+    fgets(quant, 2, stdin);
+    fprintf(espec, "%s\n", quant);
+    puts("|                                                               |");
+    limpaBuffer();
+
+    puts("| Insira quantas questoes do tipo VERDADEIRO/FALSO voce deseja: |");
+    printf(" RESPOSTA: ");
+    fgets(quant, 2, stdin);
+    fprintf(espec, "%s\n", quant);
+    puts("|                                                               |");
+    limpaBuffer();
+
+    puts("| Insira quais os assuntos desejados nas questoes:              |");
+    puts("| (Apenas letras minusculas e assuntos separados por virgulas)  |");
+    printf(" RESPOSTA: ");
+    fgets(assuntos, 200, stdin);
+    fprintf(espec, "%s", assuntos);
+    puts("|                                                               |");
+    //limpaBuffer();
+
+    puts("| Insira os niveis de dificuldade desejados:                    |");
+    puts("| (1: facil; 2: intermediario; 3: dificil)                      |");
+    puts("| (Insira apenas os numeros separados por espacos)              |");
+    printf(" RESPOSTA: ");
+    fgets(niveis, 5, stdin);
+    fprintf(espec, "%s", niveis);
+    puts("+---------------------------------------------------------------+");
+
+    fclose(espec);
+}
+
 // Informe os nomes dos arquivos contendo as questões na execucao do programa
 int main(int argc, char *argv[]) {
     int i, quantSentencas = 0;
@@ -94,7 +143,9 @@ int main(int argc, char *argv[]) {
         fclose(comp);
     }
 
+    menuUsuario();
     
+
 
 
     // Esses printf servem apenas para monitorar o resultado das variáveis

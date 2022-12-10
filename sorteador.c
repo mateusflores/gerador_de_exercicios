@@ -24,7 +24,7 @@ bool eh_linha_branca(char linha[]) {
         return false;
 }
 
-int quantidadeQuestoes (int tipo) {
+int quantidadeSentencas (int tipo) {
     srand(time(NULL));
     int randomNum;
     int quantVF[6] = {3, 4, 5, 5, 5, 6};
@@ -37,6 +37,21 @@ int quantidadeQuestoes (int tipo) {
         randomNum = rand() % 6;
         return quantSentenca[randomNum];
     }
+}
+
+bool enunciadoMultEscolha () {
+    srand(time(NULL));
+    int r = rand() % 2;
+    if (r == 0) 
+        return false; // Enunciado pede a alternativa FALSA
+    else
+        return true; // Enunciado pede a alternativa CORRETA
+}
+
+int respostaCorreta (int sentencas) {
+    srand(time(NULL));
+    int r  = rand() % sentencas + 1;
+    return r ;
 }
 
 // Informe os nomes dos arquivos contendo as questões na execucao do programa
@@ -79,8 +94,13 @@ int main(int argc, char *argv[]) {
         fclose(comp);
     }
 
+    int sentencasVF = quantidadeSentencas(VERDADEIRO_FALSO);
+    int sentencasLac = quantidadeSentencas(PREENCHER_LACUNAS);
 
 
-    printf("\n%d sentenças adicionadas no arquivo compilado.\nV/F: %d\nLacuna: %d\n", quantSentencas, quantidadeQuestoes(VERDADEIRO_FALSO), quantidadeQuestoes(PREENCHER_LACUNAS));
+    // Esse printf serve apenas para monitorar o resultado das variáveis
+    printf("\n%d sentencas adicionadas no arquivo compilado. \n", quantSentencas);
+    printf("Quantidade de sentenças do tipo lacunas: %d\n", sentencasLac);
+    printf("Resposta correta: %d\n\n", respostaCorreta(sentencasLac));
     fclose(fp);
 }

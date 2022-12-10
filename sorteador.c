@@ -46,19 +46,24 @@ int main(int argc, char *argv[]) {
         if (comp == NULL) {
             exit(8);
         }
+
+        if (i != 1){
+            fputs("\n\n", comp);
+        }
         
         while (fgets(buff, 1000, ftemp) != NULL) {
-            if (eh_linha_branca(buff))
+            if (eh_linha_branca(buff)) {
                 quantSentencas++;
+            }
             fputs(buff, comp);
         }
+        
         quantSentencas++;
 
-        fputc('\n', comp);
         fclose(ftemp);
         fclose(comp);
     }
 
-    printf("\n%d sentenças adicionadas no arquivo compilado.\n", quantSentencas);
+    printf("\n%d sentenças adicionadas no arquivo compilado.\n\n", quantSentencas);
     fclose(fp);
 }

@@ -10,3 +10,5 @@ Sugestões para os aquivos com as sentenças:
 - Sétima linha é a resposta da sentença
 
 - As diferentes questões podem ser separadas por uma linha em branco
+- Caso a sentença não tenha peso nem nível de dificuldade definido pelo usuário, colocar um 0 na linha
+    - Deve conter minimamente o assunto e o tipo da questão (v/f ou lacuna)

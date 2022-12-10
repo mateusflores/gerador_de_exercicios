@@ -24,6 +24,21 @@ bool eh_linha_branca(char linha[]) {
         return false;
 }
 
+int quantidadeQuestoes (int tipo) {
+    srand(time(NULL));
+    int randomNum;
+    int quantVF[6] = {3, 4, 5, 5, 5, 6};
+    int quantSentenca[6] = {3, 4, 5, 6, 7, 8};
+
+    if (tipo == VERDADEIRO_FALSO) {
+        randomNum = rand() % 6;
+        return quantVF[randomNum];
+    } else {
+        randomNum = rand() % 6;
+        return quantSentenca[randomNum];
+    }
+}
+
 // Informe os nomes dos arquivos contendo as questões na execucao do programa
 int main(int argc, char *argv[]) {
     int i, quantSentencas = 0;
@@ -64,6 +79,8 @@ int main(int argc, char *argv[]) {
         fclose(comp);
     }
 
-    printf("\n%d sentenças adicionadas no arquivo compilado.\n\n", quantSentencas);
+
+
+    printf("\n%d sentenças adicionadas no arquivo compilado.\nV/F: %d\nLacuna: %d\n", quantSentencas, quantidadeQuestoes(VERDADEIRO_FALSO), quantidadeQuestoes(PREENCHER_LACUNAS));
     fclose(fp);
 }

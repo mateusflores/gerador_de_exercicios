@@ -49,7 +49,7 @@ endereço
 2
 3
 arquivos
-funções
+funcoes
 3
 Em última análise, todos os itens de dados processados por um computador são reduzidos a combinações de __ e __ .
 1, 0
@@ -57,7 +57,7 @@ Em última análise, todos os itens de dados processados por um computador são 
 2
 3
 arquivos
-funções
+funcoes
 3
 O menor item de dado que um computador pode processar é chamado __ .
 bit
@@ -65,7 +65,7 @@ bit
 2
 3
 arquivos
-funções
+funcoes
 3
 Um __ é um grupo de registros relacionados entre si.
 arquivo
@@ -73,7 +73,7 @@ arquivo
 2
 3
 arquivos
-funções
+funcoes
 3
 Dígitos, letras e símbolos especiais são chamados ___.
 caracteres
@@ -81,7 +81,7 @@ caracteres
 2
 3
 arquivos
-funções
+funcoes
 3
 Um grupo de arquivos relacionados entre si é chamado ______.
 banco de dados
@@ -89,7 +89,7 @@ banco de dados
 2
 3
 arquivos
-funções
+funcoes
 3
 A função _____ fecha um arquivo.
 fclose()
@@ -97,7 +97,7 @@ fclose()
 2
 3
 arquivos
-funções
+funcoes
 3
 A instrução ______ lê dados de um arquivo, de forma similar ao modo como scanf lê de stdin.
 fscanf()
@@ -105,7 +105,7 @@ fscanf()
 2
 3
 arquivos
-funções
+funcoes
 3
 A função _______ lê um caractere de um arquivo especificado.
 getc() ou fgetc()
@@ -113,7 +113,7 @@ getc() ou fgetc()
 2
 3
 arquivos
-funções
+funcoes
 3
 A função ______ lê uma linha de um arquivo especificado.
 fgets()
@@ -121,7 +121,7 @@ fgets()
 2
 3
 arquivos
-funções
+funcoes
 3
 A função _____ abre um arquivo.
 fopen()
@@ -129,7 +129,7 @@ fopen()
 2
 3
 arquivos
-funções
+funcoes
 3
 A função ________ é usada normalmente na leitura de dados de um arquivo em aplicações de acesso aleatório.
 fread()
@@ -137,7 +137,72 @@ fread()
 2
 3
 arquivos
-funções
+funcoes
 3
 A função ______ reposiciona o ponteiro de posição do arquivo em um local específico do arquivo.
 fseek()
+
+2
+1
+algoritmos
+logica
+3
+Um procedimento para resolver um problema em termos das ações a serem executadas e a ordem em que elas devem ser realizadas é chamado um _______________.
+algoritmo
+
+2
+2
+algoritmos
+logica
+2
+Especificar a ordem de execução das instruções pelo computador é chamado _________. 
+controle do programa
+
+2
+1
+algoritmos
+logica
+2
+Todos os programas podem ser escritos em termos de três estruturas de controle _______________, _______________ e _______________.
+sequência, seleção, repetição
+
+2
+1
+algoritmos
+controle
+3
+A estrutura de seleção _______________ é usada para executar uma ação quando uma condição for verdadeira e outra ação quando a condição for falsa.
+if/else
+
+2
+2
+algoritmos
+logica
+1
+Várias instruções agrupadas entre chaves ({ e }) são chamadas _______________.
+instrução composta
+
+2
+1
+algoritmos
+lacos
+3
+A estrutura de repetição _______________ especifica que uma instrução ou grupo de instruções deve ser executado repetidamente enquanto uma condição permanecer verdadeira.
+while
+
+2
+1
+algoritmos
+lacos
+3
+A repetição de um conjunto de instruções um número específico de vezes é chamada repetição _______________.
+controlada por contador
+
+2
+2
+algoritmos
+lacos
+2
+Quando não se sabe de antemão quantas vezes um conjunto de instruções será repetido, uma _______________ pode ser usada para finalizar a repetição.
+flag
+

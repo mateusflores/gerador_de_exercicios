@@ -94,6 +94,7 @@ int main(int argc, char *argv[]) {
         fclose(comp);
     }
 
+
     int sentencasVF = quantidadeSentencas(VERDADEIRO_FALSO);
     int sentencasLac = quantidadeSentencas(PREENCHER_LACUNAS);
 

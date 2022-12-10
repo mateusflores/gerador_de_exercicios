@@ -94,14 +94,12 @@ int main(int argc, char *argv[]) {
         fclose(comp);
     }
 
-
-    int sentencasVF = quantidadeSentencas(VERDADEIRO_FALSO);
-    int sentencasLac = quantidadeSentencas(PREENCHER_LACUNAS);
+    
 
 
-    // Esse printf serve apenas para monitorar o resultado das variáveis
+    // Esses printf servem apenas para monitorar o resultado das variáveis
     printf("\n%d sentencas adicionadas no arquivo compilado. \n", quantSentencas);
-    printf("Quantidade de sentenças do tipo lacunas: %d\n", sentencasLac);
-    printf("Resposta correta: %d\n\n", respostaCorreta(sentencasLac));
+    //printf("Quantidade de sentenças do tipo lacunas: %d\n", sentencasLac);
+    //printf("Resposta correta: %d\n\n", respostaCorreta(sentencasLac));
     fclose(fp);
 }

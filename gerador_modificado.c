@@ -79,7 +79,11 @@ void inserindo_sentencas(INSERIR_SENTENCA *sentenca, FILE *ponteiro)
     scanf("%[^\n]", sentenca->respostas);
     puts("+--------------------------------------------------------------------------------+");
     setbuf(stdin, NULL);
+    if(ha_sentenca == true)
+    fprintf(ponteiro, "\n\n%d\n%hd\n%s\n%s\n%hd\n%s\n%s", PREENCHER_LACUNAS, sentenca->nivel_de_dificuldade, sentenca->tipo, sentenca->subtipo, sentenca->peso, sentenca->questoes, sentenca->respostas);
+    else
     fprintf(ponteiro, "%d\n%hd\n%s\n%s\n%hd\n%s\n%s", PREENCHER_LACUNAS, sentenca->nivel_de_dificuldade, sentenca->tipo, sentenca->subtipo, sentenca->peso, sentenca->questoes, sentenca->respostas);
+
   }
   return;
 }

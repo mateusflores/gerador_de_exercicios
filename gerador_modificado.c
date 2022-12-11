@@ -19,18 +19,17 @@ typedef struct
   char subtipo[TIPO_SUBTIPO];
 } INSERIR_SENTENCA;
 
-void insere_verdadeirofalso(INSERIR_SENTENCA *sentenca, FILE *ponteiro)
+void inserindo_sentencas(INSERIR_SENTENCA *sentenca, FILE *ponteiro)
 {
-  int i;
-  char caractere;
+  sentenca->nivel_de_dificuldade = 0;
   int tipo_de_questao = 0;
   puts("Informe o tipo de questao : 1 para VERDADEIRO/FALSO e 2 para PREENCHER_LACUNAS :");
   scanf("%d", &tipo_de_questao);
   setbuf(stdin, NULL);
-  puts("Informe o Assunto principal:");
+  puts("Informe o Assunto principal :");
   scanf("%[^\n]", sentenca->tipo);
   setbuf(stdin, NULL);
-  puts("Informe o Assunto secundario (apenas letras minusculas e sem espaco) :");
+  puts("Informe o Assunto secundario :");
   scanf("%[^\n]", sentenca->subtipo);
   setbuf(stdin, NULL);
   puts("Informe o Peso (1 - 3) :");
@@ -38,17 +37,25 @@ void insere_verdadeirofalso(INSERIR_SENTENCA *sentenca, FILE *ponteiro)
   puts("Informe o Nivel de dificuldade (1 - 3) :");
   scanf("%hd", &sentenca->nivel_de_dificuldade);
   setbuf(stdin, NULL);
-  puts("Informe a sentencia (quando terminar, digite '$' e enter) :");
-  scanf("%[^\n]", sentenca->questoes);
-  setbuf(stdin, NULL);
-  puts("Informe a resposta correta : (digite enter para terminar)");
-  scanf("%[^\n]", sentenca->respostas);
-  setbuf(stdin, NULL);
+  
 
   if (tipo_de_questao == VERDADEIRO_FALSO) {
-    fprintf(ponteiro, "\n%d\nNivel de dificuldade : %hd\nAssunto principal : %s\nAssunto secundario : %s\nPeso : %hd\nSentenca : %s\nRespostas : %s", VERDADEIRO_FALSO, sentenca->nivel_de_dificuldade, sentenca->tipo, sentenca->subtipo, sentenca->peso, sentenca->questoes, sentenca->respostas);
+    char sentenca_falsa[TAMANHO_SENTENCA];
+    puts("Informe a sentencia correta :");
+    scanf("%[^\n]", sentenca->questoes);
+    setbuf(stdin, NULL);
+    puts("Insera a sentencia falsa :");
+    scanf("%[^\n]",sentenca_falsa);
+    setbuf(stdin,NULL);
+    fprintf(ponteiro, "\n%d\nNivel de dificuldade : %hd\nAssunto principal : %s\nAssunto secundario : %s\nPeso : %hd\nSentenca Correta : %s\nSentenca Falsa : %s", VERDADEIRO_FALSO, sentenca->nivel_de_dificuldade, sentenca->tipo, sentenca->subtipo, sentenca->peso, sentenca->questoes, sentenca_falsa);
   }
   else if (tipo_de_questao == PREENCHER_LACUNAS) {
+    puts("Informe a sentencia :");
+    scanf("%[^\n]", sentenca->questoes);
+    setbuf(stdin, NULL);
+    puts("Informe a resposta correta :");
+    scanf("%[^\n]", sentenca->respostas);
+    setbuf(stdin, NULL);
     fprintf(ponteiro, "\n%d\nNivel de dificuldade : %hd\nAssunto principal : %s\nAssunto secundario : %s\nPeso : %hd\nSentenca : %s\nRespostas : %s", PREENCHER_LACUNAS, sentenca->nivel_de_dificuldade, sentenca->tipo, sentenca->subtipo, sentenca->peso, sentenca->questoes, sentenca->respostas);
   }
   return;
@@ -58,7 +65,7 @@ void insere_verdadeirofalso(INSERIR_SENTENCA *sentenca, FILE *ponteiro)
 
 void insere_sentencas_arquivo(FILE *nome_do_programa, int n_sentencas, char *nome_do_arquivo)
 {
-  int n;
+  int n = 0;
   if (n_sentencas <= 0)
   {
     fclose(nome_do_programa);
@@ -88,7 +95,7 @@ void insere_sentencas_arquivo(FILE *nome_do_programa, int n_sentencas, char *nom
     int escolha = 0;
 
     INSERIR_SENTENCA *sentenca = (INSERIR_SENTENCA *)malloc(sizeof(INSERIR_SENTENCA));
-    insere_verdadeirofalso(sentenca, nome_do_programa);
+    inserindo_sentencas(sentenca, nome_do_programa);
     free(sentenca);
     return insere_sentencas_arquivo(nome_do_programa, n_sentencas - 1, nome_do_arquivo);
   }

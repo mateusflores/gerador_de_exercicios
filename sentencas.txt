@@ -205,4 +205,3 @@ lacos
 2
 Quando não se sabe de antemão quantas vezes um conjunto de instruções será repetido, uma _______________ pode ser usada para finalizar a repetição.
 flag
-

@@ -1,4 +1,4 @@
-6
-5
-arquivos, ponteiros
-1 2 
+3
+3
+3
+3

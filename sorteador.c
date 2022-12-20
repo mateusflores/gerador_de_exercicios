@@ -71,14 +71,14 @@ void menuUsuario () {
 
     puts("+---------------------------------------------------------------+");
     puts("| Insira quantas questoes do tipo PREENCHER LACUNAS voce deseja:|");
-    printf(" RESPOSTA: ");
+    printf("  RESPOSTA: ");
     fgets(quant, 2, stdin);
     fprintf(espec, "%s\n", quant);
     puts("|                                                               |");
     limpaBuffer();
 
     puts("| Insira quantas questoes do tipo VERDADEIRO/FALSO voce deseja: |");
-    printf(" RESPOSTA: ");
+    printf("  RESPOSTA: ");
     fgets(quant, 2, stdin);
     fprintf(espec, "%s\n", quant);
     puts("|                                                               |");
@@ -86,7 +86,7 @@ void menuUsuario () {
 
     puts("| Insira quais os assuntos desejados nas questoes:              |");
     puts("| (Apenas letras minusculas e assuntos separados por virgulas)  |");
-    printf(" RESPOSTA: ");
+    printf("  RESPOSTA: ");
     fgets(assuntos, 200, stdin);
     fprintf(espec, "%s", assuntos);
     puts("|                                                               |");
@@ -95,7 +95,7 @@ void menuUsuario () {
     puts("| Insira os niveis de dificuldade desejados:                    |");
     puts("| (1: facil; 2: intermediario; 3: dificil)                      |");
     puts("| (Insira apenas os numeros separados por espacos)              |");
-    printf(" RESPOSTA: ");
+    printf("  RESPOSTA: ");
     fgets(niveis, 5, stdin);
     fprintf(espec, "%s", niveis);
     puts("+---------------------------------------------------------------+");
@@ -103,16 +103,39 @@ void menuUsuario () {
     fclose(espec);
 }
 
+SENTENCA registroSentencas (int quant) {
+    SENTENCA *form = (SENTENCA*) malloc(sizeof(SENTENCA)*quant);
+    FILE *fp = fopen("compilado_de_questoes.txt", "r");
+    if (fp == NULL) {
+        puts("Erro!");
+        exit(8);
+    }
+
+    int i = 0;
+    char frase[100];
+    while (i<quant) {
+        fgets(frase, 100, fp);
+        if (eh_linha_branca(frase)) {
+            i++;
+            continue;
+        }
+    }
+
+    fclose(fp);
+}
+
 // Informe os nomes dos arquivos contendo as questões na execucao do programa
 int main(int argc, char *argv[]) {
     int i, quantSentencas = 0;
     char buff[1000];
 
+    // Para zerar o compilado_de_questoes.txt
     FILE *fp = fopen("compilado_de_questoes.txt", "w");
     if (fp == NULL) {
         puts("Ocorreu um erro.");
         exit(7);
     }
+    fclose(fp);
 
     for (i = 1; i<argc; i++) {
         FILE *ftemp = fopen(argv[i], "r");
@@ -152,5 +175,5 @@ int main(int argc, char *argv[]) {
     printf("\n%d sentencas adicionadas no arquivo compilado. \n", quantSentencas);
     //printf("Quantidade de sentenças do tipo lacunas: %d\n", sentencasLac);
     //printf("Resposta correta: %d\n\n", respostaCorreta(sentencasLac));
-    fclose(fp);
+
 }

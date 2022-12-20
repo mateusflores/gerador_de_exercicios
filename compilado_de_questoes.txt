@@ -1,21 +1,15 @@
 1
 2
-a
-a
-2
-a
-a2
-3
-b
-b
-3
-b
-b
-
+Arrays
+curiosidades
 1
+Arrays sao armazenados de maneira sequenciada na memoria
+arrays sao armazenados de maneira separada na memoria
+
+2
 3
-c
-c
-3
-c
-c
+Arrays
+curiosidades
+2
+Arrays possui o primeiro elemento com indice ____ e portanto seu eh n - _______
+0,1

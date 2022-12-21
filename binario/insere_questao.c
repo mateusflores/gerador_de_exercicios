@@ -41,7 +41,8 @@ FILE* novoArquivo() {
     char nome[20];
     puts("CUIDADO! Inserir o nome de um arquivo ja existente vai apagar todo o seu conteudo!!!");
     puts("Insira o nome do arquivo a ser criado (EX: 'exemplo.bin')");
-    printf("Resposta: ");    
+    printf("Resposta: "); 
+    getchar();   
     newFgets(nome, 20);
 
     FILE *fp = fopen(nome, "wb");

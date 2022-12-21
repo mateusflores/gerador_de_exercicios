@@ -94,9 +94,6 @@ void gerar_sentenca(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, 
 
 
     }
-
-
-
 }
 
 

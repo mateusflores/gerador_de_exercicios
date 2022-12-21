@@ -21,24 +21,28 @@ typedef struct {
     char falsa[150]; 
 } SENTENCA;
 
-// EXCLUIR DEPOIS
-void listar(FILE *fp) {
-    fseek(fp, 0, SEEK_SET);
-    SENTENCA sent;
-    int lidos;
-    puts("");
-    printf("ID     TIPO    DIFIC    PESO    A. PRINCIPAL       A. SECUNDARIO             SENTENCA\n");
-    while ((lidos = fread(&sent, sizeof(SENTENCA), 1, fp)) > 0) {
-        if (sent.tipo == VF) {
-            printf("%2hd      v/f        %hd      %hd      %-10s          %-10s       V: %s\n", sent.id, sent.dificuldade, sent.peso, sent.assuntoPrincipal, sent.assuntoSecundario, sent.verdadeira);
-            printf("                                                                      F: %s\n\n", sent.falsa);
-        } else {
-            printf("%2hd      lac        %hd      %hd      %-10s          %-10s       %s\n", sent.id, sent.dificuldade, sent.peso, sent.assuntoPrincipal, sent.assuntoSecundario, sent.lacuna);
-            printf("                                                                      Resposta: %s\n\n", sent.resposta);
-        }
-        puts("");
-    }
+typedef struct {
+    unsigned short quantLacunas;
+    unsigned short quantVF;
+    char assuntos[30][30];
+    int numAssuntos;
+    int dificuldades[3];
+    int numDific;
+} ESPECIFICACAO_PROVA;
 
+// Funcao fgets(), mas sem a quebra de linha no final da string
+char* newFgets(char frase[], int tam) {
+    fgets(frase, tam, stdin);
+    for (int i=0; i<tam; i++) {
+        if (frase[i] == '\n')
+            frase[i] = '\0';
+    }
+    return frase;
+}
+
+void limpaBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 int numSentencas(FILE* fp) {
@@ -60,6 +64,87 @@ void criaCompilado() {
         puts("Erro ao criar o arquivo com o compilado de sentencas!");
         exit(5);
     }
+    fclose(fp);
+}
+
+// Copia todas as sentencas do arquivo compilado para um array na Heap
+SENTENCA* geraArray(FILE *fp, int tam) {
+    SENTENCA sent;
+    int lidos, i=0;
+    SENTENCA *sentencas = (SENTENCA*) malloc(tam * sizeof(SENTENCA));
+
+    while((lidos = fread(&sent, sizeof(SENTENCA), 1, fp)) > 0) {
+        sentencas[i] = sent;
+        i++;
+    }
+    return sentencas;
+}
+
+// Requisita as informações para gerar a prova e as armazena no arquivo "especificacao_questoes.bin"
+void menuUsuario() {
+    FILE *fp = fopen("especificacao_questoes.bin", "wb+");
+    ESPECIFICACAO_PROVA espec;
+    char frase[100];
+    char dific[10];
+    int i=0, j=0, n=0;
+    espec.numAssuntos = 0, espec.numDific = 0;
+    if (fp == NULL) {
+        puts("Erro ao criar o arquivo 'especificacao_questoes.bin'!");
+        exit(8);
+    }
+
+    puts("+---------------------------------------------------------------+");
+    puts("| Insira quantas questoes do tipo PREENCHER LACUNAS voce deseja:|");
+    printf("  RESPOSTA: ");
+    scanf("%hd", &espec.quantLacunas);
+
+    puts("|                                                               |");
+
+    puts("| Insira quantas questoes do tipo VERDADEIRO/FALSO voce deseja: |");
+    printf("  RESPOSTA: ");
+    scanf("%hd", &espec.quantVF);
+
+    puts("|                                                               |");
+    limpaBuffer();
+
+    puts("| Insira quais os assuntos desejados nas questoes:              |");
+    puts("| (Apenas letras minusculas e assuntos separados por um espaco) |");
+    printf("  RESPOSTA: ");
+    newFgets(frase, 100);
+    while(frase[n] != '\0') {
+        if (frase[n] == ' ') {
+            espec.assuntos[i][j] = '\0';
+            i++;
+            j=0;
+        } else {
+            espec.assuntos[i][j] = frase[n];
+            j++;
+        }
+        n++;
+    }
+    espec.numAssuntos = i+1;
+
+    puts("|                                                               |");
+
+    n=0, i=0, j=0;
+    puts("| Insira os niveis de dificuldade desejados:                    |");
+    puts("| (1: facil; 2: intermediario; 3: dificil)                      |");
+    puts("| (Insira apenas os numeros separados por espacos)              |");
+    printf("  RESPOSTA: ");
+    newFgets(dific, 10);
+    while(dific[i] != '\0') {
+        if (dific[i] != ' ') {
+            espec.dificuldades[j] = (unsigned short) atoi(&dific[i]);
+            j++;
+        }
+        i++;
+    }
+    espec.numDific = j;
+
+    puts("+---------------------------------------------------------------+");
+
+    
+    fwrite(&espec, sizeof(ESPECIFICACAO_PROVA), 1, fp);
     fclose(fp);
 }
 
@@ -90,14 +175,15 @@ int main(int argc, char *argv[]) {
     }
 
     int quantSentencas = numSentencas(comp);
+    SENTENCA *sentencas = geraArray(comp, quantSentencas);
 
-
-
+    menuUsuario();
 
 
     fclose(comp);
+    free(sentencas);
+    
 
     // EXCLUIR DEPOIS -> Testando se o arquivo de compilado esta recebendo sentencas
-    listar(comp);
     printf("\n\n%d sentencas\n\n", quantSentencas);
 }

@@ -7,19 +7,23 @@
 
 typedef struct
 {
-  int tipo;
+  unsigned short int id;
+  unsigned short int tipo;
   unsigned short int dificuldade;
-  char assuntoPrincipal[20];
-  char assuntoSecundario[200];
   unsigned short int peso;
-  char frase[1000];
-  char resposta[100]; // a probabilidade do sorteio eh proporcional ao peso
+  char assuntoPrincipal[10];
+  char assuntoSecundario[10];
+  char lacuna[150];
+  char resposta[25];
+  char verdadeira[150];
+  char falsa[150]; // a probabilidade do sorteio eh proporcional ao peso
   // em comparacao as sentencas
 } INSERIR_SENTENCA;
 
 void inserindo_sentencas(FILE * ponteiro)
 {
-  INSERIR_SENTENCA *sentenca = (INSERIR_SENTENCA *)malloc(sizeof(INSERIR_SENTENCA));
+  INSERIR_SENTENCA * sentenca = (INSERIR_SENTENCA *)malloc(sizeof(INSERIR_SENTENCA));
+  sentenca->id = 0;
   bool ha_sentenca = false;
   sentenca->dificuldade = 0;
   puts("+--------------------------------------------------------------------------------+");
@@ -49,11 +53,11 @@ void inserindo_sentencas(FILE * ponteiro)
     
     puts("|Informe a sentencia correta :                                                   |");
     printf(" Resposta :");
-    scanf("%[^\n]", sentenca->frase);
+    scanf("%[^\n]", sentenca->verdadeira);
     setbuf(stdin, NULL);
     puts("|Insera a sentencia falsa :                                                      |");
     printf(" Resposta :");
-    scanf("%[^\n]",sentenca->resposta);
+    scanf("%[^\n]",sentenca->falsa);
     puts("+--------------------------------------------------------------------------------+");
     setbuf(stdin,NULL);
     fwrite(sentenca,sizeof(INSERIR_SENTENCA),1,ponteiro);
@@ -62,7 +66,7 @@ void inserindo_sentencas(FILE * ponteiro)
   else if (sentenca->tipo== PREENCHER_LACUNAS) {
     puts("|Informe a sentencia :                                                           |");
     printf(" Resposta :");
-    scanf("%[^\n]", sentenca->frase);
+    scanf("%[^\n]", sentenca->lacuna);
     setbuf(stdin, NULL);
     puts("|Informe a resposta correta :                                                    |");
     printf(" Resposta :");
@@ -75,57 +79,6 @@ void inserindo_sentencas(FILE * ponteiro)
   }
   free(sentenca);
   return;
-}
-
-int sorteador(int i,char assunto_principal[],int tipo,int anterior){
-  bool eh_diferente = false;
-  int sorteio;
-  srand(time(NULL));
-  while(eh_diferente == false){
-     sorteio = rand() % i;
-    if(sorteio != anterior){
-      eh_diferente = true;
-    }
-  }
-  
-  FILE * fp1 = fopen("sentencas.bin","rb");
-  FILE * fp2 = fopen("prova.txt","a");
-  FILE * fp3 = fopen("gabarito.txt","a");
-  int contador = 0;
-  INSERIR_SENTENCA p;
-  while(contador != sorteio){
-    fread(&p,sizeof(INSERIR_SENTENCA),1,fp1);
-    if(strcmp(assunto_principal,p.assuntoPrincipal) == 0 && p.tipo == tipo)
-        contador++;
-
-       if(contador == sorteio){
-        fprintf(fp2,"%s",p.frase);
-        fputc('\n',fp2);
-        fprintf(fp3,"%s",p.resposta);
-        fputc('\n',fp3);
-
-
-      }
-  }
-  fclose(fp1);
-  fclose(fp2);
-  fclose(fp3);
-  return anterior;
-
-}
-
-int conta_questoes(char assunto_principal[], int tipo){
-    FILE * fp = fopen("sentencas.bin","rb");
-    int contador = 0;
-    INSERIR_SENTENCA p;
-    while(fread(&p,sizeof(INSERIR_SENTENCA),1,fp) == 1){
-
-        if(strcmp(assunto_principal,p.assuntoPrincipal) == 0 && p.tipo == tipo)
-        contador++;
-    }
-    fclose(fp);
-    return contador;
-
 }
 
 int main(int argc, char **argv)
@@ -148,8 +101,6 @@ int main(int argc, char **argv)
 
 
   }
- 
-  
 
   return 0;
 }

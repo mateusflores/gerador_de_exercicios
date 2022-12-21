@@ -148,6 +148,7 @@ void menuUsuario() {
     fclose(fp);
 }
 
+
 int main(int argc, char *argv[]) {
     criaCompilado();
     int lidos;

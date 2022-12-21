@@ -75,7 +75,7 @@ int criar_prova(){
 // arquivo prova, e escreve a resposta correta no arquivo gabarito
 
 
-void gerar_questao(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, bool questao){
+void gerar_sentenca(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, bool questao){
     if(num_sentencas <=0){
         return;
     } else{
@@ -90,7 +90,7 @@ void gerar_questao(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, b
          fprintf(fp1,"%s\n",texto->lacuna);
          fprintf(fp2,"%s\n",texto->resposta);
        }
-       gerar_questao(fp1,fp2,num_sentencas-1,texto,0);
+       gerar_sentenca(fp1,fp2,num_sentencas-1,texto,0);
 
 
     }
@@ -101,7 +101,7 @@ void gerar_questao(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, b
 
 
 
-int gerar_indice(char prova[], char gabarito[],int tipo,int indice){
+int gerar_questao(char prova[], char gabarito[],int tipo,int indice){
     SENTENCA questao;
     bool falso = false;
     indice++;
@@ -110,13 +110,13 @@ int gerar_indice(char prova[], char gabarito[],int tipo,int indice){
     if(tipo == 2){
         fprintf(fp1,"%d-Preencha os espaços em cada uma das sentenças:\n",indice);
         fprintf(fp2,"%d\n",indice);
-        gerar_questao(fp1,fp2,2,&questao,0);
+        gerar_sentenca(fp1,fp2,2,&questao,0);
 
     }
     else if(tipo == 1){
         fprintf(fp1,"%d-Indique se as seguintes sentenças são falsas ou verdadeiras:\n",indice);
         fprintf(fp2,"%d\n",indice);
-        gerar_questao(fp1,fp2,2,&questao,falso);
+        gerar_sentenca(fp1,fp2,2,&questao,falso);
     }
 
 
@@ -137,4 +137,4 @@ int main(){
     sprintf(gabarito,"gabarito%d.bin",n);
     gerar_indice(prova,gabarito,1,0);
    
-    }
+}

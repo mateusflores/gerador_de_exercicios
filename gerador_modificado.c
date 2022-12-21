@@ -77,6 +77,57 @@ void inserindo_sentencas(FILE * ponteiro)
   return;
 }
 
+int sorteador(int i,char assunto_principal[],int tipo,int anterior){
+  bool eh_diferente = false;
+  int sorteio;
+  srand(time(NULL));
+  while(eh_diferente == false){
+     sorteio = rand() % i;
+    if(sorteio != anterior){
+      eh_diferente = true;
+    }
+  }
+  
+  FILE * fp1 = fopen("sentencas.bin","rb");
+  FILE * fp2 = fopen("prova.txt","a");
+  FILE * fp3 = fopen("gabarito.txt","a");
+  int contador = 0;
+  INSERIR_SENTENCA p;
+  while(contador != sorteio){
+    fread(&p,sizeof(INSERIR_SENTENCA),1,fp1);
+    if(strcmp(assunto_principal,p.assuntoPrincipal) == 0 && p.tipo == tipo)
+        contador++;
+
+       if(contador == sorteio){
+        fprintf(fp2,"%s",p.frase);
+        fputc('\n',fp2);
+        fprintf(fp3,"%s",p.resposta);
+        fputc('\n',fp3);
+
+
+      }
+  }
+  fclose(fp1);
+  fclose(fp2);
+  fclose(fp3);
+  return anterior;
+
+}
+
+int conta_questoes(char assunto_principal[], int tipo){
+    FILE * fp = fopen("sentencas.bin","rb");
+    int contador = 0;
+    INSERIR_SENTENCA p;
+    while(fread(&p,sizeof(INSERIR_SENTENCA),1,fp) == 1){
+
+        if(strcmp(assunto_principal,p.assuntoPrincipal) == 0 && p.tipo == tipo)
+        contador++;
+    }
+    fclose(fp);
+    return contador;
+
+}
+
 int main(int argc, char **argv)
 {
   int n_sentencas = 0;

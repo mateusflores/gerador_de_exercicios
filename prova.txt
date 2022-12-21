@@ -1,0 +1,3 @@
+O único inteiro que pode ser atribuído a um ponteiro é _________.
+Um ponteiro é uma variável que contém o _______ de outra variável como valor.
+A função ______ abre um arquivo.

@@ -148,6 +148,40 @@ void menuUsuario() {
     fclose(fp);
 }
 
+// Gera a quantidade de sentenças que cada questão terá
+int quantidadeSentencas (int tipo) {
+    srand(time(NULL));
+    int randomNum;
+    int quantVF[6] = {3, 4, 5, 5, 5, 6};
+    int quantSentenca[6] = {3, 4, 5, 6, 7, 8};
+
+    if (tipo == VF) {
+        randomNum = rand() % 6;
+        return quantVF[randomNum];
+    } else {
+        randomNum = rand() % 6;
+        return quantSentenca[randomNum];
+    }
+}
+
+// Define se o enunciado da questão de V/F pede a alternativa verdadeira ou falsa
+bool enunciadoMultEscolha () {
+    srand(time(NULL));
+    int r = rand() % 2;
+    if (r == 0) 
+        return false; // Enunciado pede a alternativa FALSA
+    else
+        return true; // Enunciado pede a alternativa CORRETA
+}
+
+// Sorteia qual das sentenças vai ser a correta
+int respostaCorreta (int sentencas) {
+    srand(time(NULL));
+    int r  = rand() % sentencas + 1;
+    return r ;
+}
+
+
 
 int main(int argc, char *argv[]) {
     criaCompilado();

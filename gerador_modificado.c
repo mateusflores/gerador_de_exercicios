@@ -80,7 +80,7 @@ void inserindo_sentencas(FILE * ponteiro)
 int main(int argc, char **argv)
 {
   int n_sentencas = 0;
-  FILE * fp = fopen("compilado_de_questoes.bin","ab");
+  FILE * fp = fopen("sentencas.bin","ab");
 
   while(n_sentencas != 2){
     puts("1 para inserir sentenca\n2 para encerrar");

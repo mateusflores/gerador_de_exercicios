@@ -134,6 +134,7 @@ void gerar_prova_gabarito(){
     sprintf(prova,"prova%d.bin",n);
     sprintf(gabarito,"gabarito%d.bin",n);
     gerar_indice(prova,gabarito,1,0);
+    
 
 }
 

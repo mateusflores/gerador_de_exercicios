@@ -29,7 +29,7 @@ void inserindo_sentencas(FILE * ponteiro)
   puts("+--------------------------------------------------------------------------------+");
   puts("|Informe o tipo de questao : 1 para VERDADEIRO/FALSO e 2 para PREENCHER_LACUNAS :|");
   printf(" Resposta :");
-  scanf("%d",&sentenca->tipo);
+  scanf("%hd",&sentenca->tipo);
   setbuf(stdin, NULL);
   puts("|Informe o Nivel de dificuldade (1 - 3) :                                        |");
   printf(" Resposta :");

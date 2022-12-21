@@ -16,8 +16,7 @@ typedef struct
   char lacuna[150];
   char resposta[25];
   char verdadeira[150];
-  char falsa[150]; // a probabilidade do sorteio eh proporcional ao peso
-  // em comparacao as sentencas
+  char falsa[150];
 } INSERIR_SENTENCA;
 
 void inserindo_sentencas(FILE * ponteiro)
@@ -37,7 +36,7 @@ void inserindo_sentencas(FILE * ponteiro)
   setbuf(stdin, NULL);
   puts("|Informe o Assunto principal :                                                   |");
   printf(" Resposta :");
-  scanf("%[^\n]", sentenca->tipo);
+  scanf("%[^\n]", sentenca->assuntoPrincipal);
   setbuf(stdin, NULL);
   puts("|Informe o Assunto secundario :                                                  |");
   printf(" Resposta :");

@@ -129,12 +129,19 @@ int gerar_questao(char prova[], char gabarito[],int tipo,int indice){
 
 }
 
-int main(){
+void gerar_prova_gabarito(){
+
     int n = criar_prova();
     char prova[20];
     char gabarito[20];
     sprintf(prova,"prova%d.bin",n);
     sprintf(gabarito,"gabarito%d.bin",n);
     gerar_indice(prova,gabarito,1,0);
-   
+
+}
+
+
+int main(){
+    
+   gerar_prova_gabarito();
 }

@@ -3,6 +3,10 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define VF 1
+#define LAC 2
+#define SAIR 99
+
 typedef struct {
     unsigned short id;
     unsigned short tipo;
@@ -14,8 +18,17 @@ typedef struct {
     char resposta[25];
     char verdadeira[150];
     char falsa[150]; 
-
 } SENTENCA;
+
+// Funcao fgets(), mas sem a quebra de linha no final da string
+char* newFgets(char frase[], int tam) {
+    fgets(frase, tam, stdin);
+    for (int i=0; i<tam; i++) {
+        if (frase[i] == '\n')
+            frase[i] = '\0';
+    }
+    return frase;
+}
 
 void removeQuabraLinha(char frase[], int tam) {
     for (int i=0; i<tam; i++) {
@@ -26,18 +39,40 @@ void removeQuabraLinha(char frase[], int tam) {
 
 FILE* novoArquivo() {
     char nome[20];
-    puts("Insira o nome do arquivo que vai receber as sentencas (EX: 'exemplo.bin')");
+    puts("CUIDADO! Inserir o nome de um arquivo ja existente vai apagar todo o seu conteudo!!!");
+    puts("Insira o nome do arquivo a ser criado (EX: 'exemplo.bin')");
     printf("Resposta: ");    
-    fgets(nome, 20, stdin);
-    removeQuabraLinha(nome, 20);
+    newFgets(nome, 20);
 
-    FILE *fp = fopen(nome, "ab+");
+    FILE *fp = fopen(nome, "wb");
     if (fp == NULL) {
-        puts("ERRO: Nao foi possivel criar/abrir o arquivo.");
+        puts("ERRO: Nao foi possivel criar o arquivo.");
         return NULL;
     }
     printf("Arquivo '%s' criado com sucesso!\n\n", nome);
+    fclose(fp);
 
+    fp = fopen(nome, "rb+");
+    if (fp == NULL) {
+        puts("Erro ao abrir o arquivo.");
+        exit(4);
+    }
+    return fp;
+}
+
+FILE* abrirArquivo() {
+    char nome[20];
+    puts("Insira o nome do arquivo a ser aberto (EX: 'exemplo.bin')");
+    printf("Resposta: ");  
+    getchar();  
+    newFgets(nome, 20);
+
+    FILE *fp = fopen(nome, "rb+");
+    if (fp == NULL) {
+        puts("ERRO: Nao foi possivel abrir o arquivo.");
+        return NULL;
+    }
+    printf("Arquivo '%s' aberto com sucesso!\n\n", nome);
 
     return fp;
 }
@@ -75,7 +110,6 @@ void inserir(FILE *fp) {
         removeQuabraLinha(sent.verdadeira, 150);
 
         puts("Insira a sentenca FALSA: ");
-        getchar();
         fgets(sent.falsa, 150, stdin);
         removeQuabraLinha(sent.falsa, 150);
     } else {
@@ -85,7 +119,6 @@ void inserir(FILE *fp) {
         removeQuabraLinha(sent.lacuna, 150);
 
         puts("Insira a resposta da lacuna: ");
-        getchar();
         fgets(sent.resposta, 25, stdin);
         removeQuabraLinha(sent.resposta, 25);
     }
@@ -121,10 +154,15 @@ void listar(FILE *fp) {
     SENTENCA sent;
     int lidos;
     puts("");
-    printf("ID    TIPO    DIFIC    PESO    A. PRINCIPAL       A. SECUNDARIO             SENTENCA\n");
+    printf("ID     TIPO    DIFIC    PESO    A. PRINCIPAL       A. SECUNDARIO             SENTENCA\n");
     while ((lidos = fread(&sent, sizeof(SENTENCA), 1, fp)) > 0) {
-        printf("%2hd      %hd        %hd      %hd      %-10s          %-10s       %s", sent.id, sent.tipo, sent.dificuldade, sent.peso, sent.assuntoPrincipal, sent.assuntoSecundario, sent.verdadeira);
-        puts("");
+        if (sent.tipo == VF) {
+            printf("%2hd      v/f        %hd      %hd      %-10s          %-10s       V: %s\n", sent.id, sent.dificuldade, sent.peso, sent.assuntoPrincipal, sent.assuntoSecundario, sent.verdadeira);
+            printf("                                                                      F: %s\n\n", sent.falsa);
+        } else {
+            printf("%2hd      lac        %hd      %hd      %-10s          %-10s       %s\n", sent.id, sent.dificuldade, sent.peso, sent.assuntoPrincipal, sent.assuntoSecundario, sent.lacuna);
+            printf("                                                                      Resposta: %s\n\n", sent.resposta);
+        }
         puts("");
     }
 
@@ -181,7 +219,6 @@ void alterar(FILE* fp) {
         removeQuabraLinha(sent.verdadeira, 150);
 
         puts("Insira a sentenca FALSA: ");
-        getchar();
         fgets(sent.falsa, 150, stdin);
         removeQuabraLinha(sent.falsa, 150);
     } else {
@@ -191,7 +228,6 @@ void alterar(FILE* fp) {
         removeQuabraLinha(sent.lacuna, 150);
 
         puts("Insira a resposta da lacuna: ");
-        getchar();
         fgets(sent.resposta, 25, stdin);
         removeQuabraLinha(sent.resposta, 25);
     }
@@ -219,6 +255,7 @@ void alterar(FILE* fp) {
     fgets(sent.assuntoSecundario, 10, stdin);
     removeQuabraLinha(sent.assuntoSecundario, 10);
 
+    fseek(fp, sizeof(SENTENCA)*(id-1), SEEK_SET);
     fwrite(&sent, sizeof(SENTENCA), 1, fp);
 
 
@@ -226,9 +263,31 @@ void alterar(FILE* fp) {
 
 int main() {
     int resp;
+
+    FILE *fp;
     
-    FILE *fp = novoArquivo();
+    puts("+------- INSESOR DE SENTENCAS -------+");
+    puts("1. Criar novo arquivo de sentencas.");
+    puts("2. Abrir arquivo de sentencas ja existente.");
+    scanf("%d", &resp);
+
+    do {
+        switch (resp) {
+            case 1:
+                fp = novoArquivo();
+                break;
+            case 2:
+                fp = abrirArquivo();
+                break;
+            default:
+                puts("Insira uma opcao valida.");
+                break;
+        }
+    } while (resp<1 || resp>2);
+
+    // controle do numero de registros já inseridos no arquivo em questão
     printf("\n\n%d registros\n", numSentencas(fp));
+
     do {
         puts("");
         puts("*** INSERSOR DE SENTENCAS ***");
@@ -254,6 +313,7 @@ int main() {
             listar(fp);
             break;          
         case 5:
+            resp = SAIR;
             puts("Fechando o programa.");
             break;
         default:
@@ -261,7 +321,7 @@ int main() {
             break;
         }
 
-    } while (resp != 5);
+    } while (resp != SAIR);
 
 
     fclose(fp);

@@ -8,12 +8,12 @@ typedef struct {
     unsigned short tipo;
     unsigned short dificuldade;
     unsigned short peso;
-    char assuntoPrincipal[10];
-    char assuntoSecundario[10];
-    char lacuna[150];
+    char assuntoPrincipal[25];
+    char assuntoSecundario[25];
+    char lacuna[500];
     char resposta[25];
-    char verdadeira[150];
-    char falsa[150]; 
+    char verdadeira[500];
+    char falsa[500]; 
 } SENTENCA;
 
 
@@ -62,8 +62,6 @@ int criar_prova(){
       fclose(fp2);
 
     return i;
-
-
 }
 
 // A funcao gerar_prova recebe os ponteiros dos arquivos prova e gabarito,
@@ -73,7 +71,6 @@ int criar_prova(){
 // quais das duas que serao inseridas na prova.
 // Apos receber todos esses parametros, a funcao escreve a sentenca no
 // arquivo prova, e escreve a resposta correta no arquivo gabarito
-
 
 void gerar_sentenca(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, bool questao){
     if(num_sentencas <=0){
@@ -91,14 +88,12 @@ void gerar_sentenca(FILE * fp1, FILE * fp2, int num_sentencas,SENTENCA * texto, 
          fprintf(fp2,"%s\n",texto->resposta);
        }
        gerar_sentenca(fp1,fp2,num_sentencas-1,texto,0);
-
-
     }
 }
 
 
 
-int gerar_questao(char prova[], char gabarito[],int tipo,int indice){
+int gerar_questao(char prova[], char gabarito[],int tipo,int indice) {
     SENTENCA questao;
     bool falso = false;
     indice++;
@@ -115,27 +110,18 @@ int gerar_questao(char prova[], char gabarito[],int tipo,int indice){
         fprintf(fp2,"%d\n",indice);
         gerar_sentenca(fp1,fp2,2,&questao,falso);
     }
-
-
-
     fclose(fp1);
     fclose(fp2);
     return indice;
-
-
-
 }
 
-void gerar_prova_gabarito(){
-
+void gerar_prova_gabarito() {
     int n = criar_prova();
     char prova[20];
     char gabarito[20];
     sprintf(prova,"prova%d.bin",n);
     sprintf(gabarito,"gabarito%d.bin",n);
     gerar_indice(prova,gabarito,1,0);
-    
-
 }
 
 

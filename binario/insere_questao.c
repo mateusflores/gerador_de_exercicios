@@ -12,13 +12,18 @@ typedef struct {
     unsigned short tipo;
     unsigned short dificuldade;
     unsigned short peso;
-    char assuntoPrincipal[10];
-    char assuntoSecundario[10];
-    char lacuna[150];
+    char assuntoPrincipal[25];
+    char assuntoSecundario[25];
+    char lacuna[500];
     char resposta[25];
-    char verdadeira[150];
-    char falsa[150]; 
+    char verdadeira[500];
+    char falsa[500]; 
 } SENTENCA;
+
+void limpaBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
 // Funcao fgets(), mas sem a quebra de linha no final da string
 char* newFgets(char frase[], int tam) {
@@ -106,18 +111,18 @@ void inserir(FILE *fp) {
 
     if (sent.tipo == 1) {
         puts("Insira a sentenca VERDADEIRA: ");
-        getchar();
-        fgets(sent.verdadeira, 150, stdin);
-        removeQuabraLinha(sent.verdadeira, 150);
+        limpaBuffer();
+        fgets(sent.verdadeira, 500, stdin);
+        removeQuabraLinha(sent.verdadeira, 500);
 
         puts("Insira a sentenca FALSA: ");
-        fgets(sent.falsa, 150, stdin);
-        removeQuabraLinha(sent.falsa, 150);
+        fgets(sent.falsa, 500, stdin);
+        removeQuabraLinha(sent.falsa, 500);
     } else {
         puts("Insira a sentenca com a lacuna: ");
-        getchar();
-        fgets(sent.lacuna, 150, stdin);
-        removeQuabraLinha(sent.lacuna, 150);
+        limpaBuffer();
+        fgets(sent.lacuna, 500, stdin);
+        removeQuabraLinha(sent.lacuna, 500);
 
         puts("Insira a resposta da lacuna: ");
         fgets(sent.resposta, 25, stdin);
@@ -139,13 +144,14 @@ void inserir(FILE *fp) {
     } while (sent.peso < 1 || sent.peso > 3);
 
     puts("Insira o assunto principal:");
-    getchar();
-    fgets(sent.assuntoPrincipal, 10, stdin);
+    limpaBuffer();
+    fgets(sent.assuntoPrincipal, 25, stdin);
     removeQuabraLinha(sent.assuntoPrincipal, 10);
 
     puts("Insira o assunto secundario:");
-    fgets(sent.assuntoSecundario, 10, stdin);
+    fgets(sent.assuntoSecundario, 25, stdin);
     removeQuabraLinha(sent.assuntoSecundario, 10);
+    limpaBuffer();
 
     fwrite(&sent, sizeof(SENTENCA), 1, fp);
 }
@@ -215,20 +221,22 @@ void alterar(FILE* fp) {
 
     if (sent.tipo == 1) {
         puts("Insira a sentenca VERDADEIRA: ");
-        getchar();
-        fgets(sent.verdadeira, 150, stdin);
-        removeQuabraLinha(sent.verdadeira, 150);
+        limpaBuffer();
+        fgets(sent.verdadeira, 500, stdin);
+        removeQuabraLinha(sent.verdadeira, 500);
 
         puts("Insira a sentenca FALSA: ");
-        fgets(sent.falsa, 150, stdin);
-        removeQuabraLinha(sent.falsa, 150);
+        limpaBuffer();
+        fgets(sent.falsa, 500, stdin);
+        removeQuabraLinha(sent.falsa, 500);
     } else {
         puts("Insira a sentenca com a lacuna: ");
-        getchar();
-        fgets(sent.lacuna, 150, stdin);
-        removeQuabraLinha(sent.lacuna, 150);
+        limpaBuffer();
+        fgets(sent.lacuna, 500, stdin);
+        removeQuabraLinha(sent.lacuna, 500);
 
         puts("Insira a resposta da lacuna: ");
+
         fgets(sent.resposta, 25, stdin);
         removeQuabraLinha(sent.resposta, 25);
     }
@@ -248,13 +256,13 @@ void alterar(FILE* fp) {
     } while (sent.peso < 1 || sent.peso > 3);
 
     puts("Insira o assunto principal:");
-    getchar();
-    fgets(sent.assuntoPrincipal, 10, stdin);
-    removeQuabraLinha(sent.assuntoPrincipal, 10);
+    limpaBuffer();
+    fgets(sent.assuntoPrincipal, 25, stdin);
+    removeQuabraLinha(sent.assuntoPrincipal, 25);
 
     puts("Insira o assunto secundario:");
-    fgets(sent.assuntoSecundario, 10, stdin);
-    removeQuabraLinha(sent.assuntoSecundario, 10);
+    fgets(sent.assuntoSecundario, 25, stdin);
+    removeQuabraLinha(sent.assuntoSecundario, 25);
 
     fseek(fp, sizeof(SENTENCA)*(id-1), SEEK_SET);
     fwrite(&sent, sizeof(SENTENCA), 1, fp);
@@ -270,6 +278,7 @@ int main() {
     puts("+------- INSESOR DE SENTENCAS -------+");
     puts("1. Criar novo arquivo de sentencas.");
     puts("2. Abrir arquivo de sentencas ja existente.");
+    printf("Resposta: ");
     scanf("%d", &resp);
 
     do {
